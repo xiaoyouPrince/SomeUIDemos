@@ -3,9 +3,9 @@
 
 当前 Swift 版本为 4.0 ,在我使用 Swift 4.0 写代码的时候依旧出现了很多不解之谜，浪费了很多时间也让我对 Swift 的体验印象很差！(当然有我自己的原因：对Swift 并不足够熟悉，对一些代码习惯不熟悉等) 不论如何我还是坚持写了几个小程序，并记录了下来我在使用 Swift 开发中遇到的“问题”，与有缘人共勉！
 
--  Swift 4.0 读取和解析 Plist 文件，读不到数据！同样的代码、逻辑正确，在 Swift 3.2 版本正常，4.0 版本读不到数据。太™坑了！
+- **Swift 4.0 读取和解析 Plist 文件，读不到数据！同样的代码、逻辑正确，在 Swift 3.2 版本正常，4.0 版本读不到数据。太™坑了！**
 
-''' Swift
+``` Swift
 
      fileprivate lazy var questions : [XYQuestion] = { [unowned self] in
         
@@ -21,11 +21,12 @@
         }
         return questions
     }()
-'''
+    
+```
 
--  Swift 中动画播放出现问题，同时放两个动画，效果奇葩
+- **Swift 中动画播放出现问题，同时放两个动画，效果奇葩**
 
-''' Swift
+``` Swift
 
              /// 动画放大图片  ---  效果异常
 //        self.iconBtn.frame = self.defaultIconRect!
@@ -50,7 +51,7 @@
                 self.iconBtn.center = self.view.center
             })
         }
-'''
+```
 
 ## 1. 超级猜图
 
