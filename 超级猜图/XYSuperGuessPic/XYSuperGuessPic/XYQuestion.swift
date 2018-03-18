@@ -14,10 +14,10 @@ import UIKit
 class XYQuestion: NSObject {
     
     
-    var answer : String?    /// 答案
-    var icon   : String?    /// 对应图片
-    var title  : String?    /// 对应标题
-    var options: Array<String>?     /// 带选项
+    var answer : String?    ///< 答案
+    var icon   : String?    ///< 对应图片
+    var title  : String?    ///< 对应标题
+    var options: Array<String>?     ///< 带选项
     
     
     /// 重写父类初始化方法
@@ -31,11 +31,14 @@ class XYQuestion: NSObject {
         
         /// KVC 赋值
         setValuesForKeys(dict)
+        
     }
     
     /// KVC for undefined key
     override func setValue(_ value: Any?, forUndefinedKey key: String) {
         
     }
+    
+    
 
 }
