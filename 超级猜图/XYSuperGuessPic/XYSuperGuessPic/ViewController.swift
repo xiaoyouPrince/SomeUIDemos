@@ -121,15 +121,23 @@ extension ViewController{
     /** 设置控件的数据 */
     func settingData(_ question : XYQuestion) -> Void {
         
+        // 1. 标题序号
         self.noLabel.text = String.localizedStringWithFormat("%d / %d", self.index , self.questions.count)
         
+        // 2. 问题title
         self.titleLabel.text = question.title
-//        self.iconBtn.setImage(UIImage(named : question.icon!), for: .normal)
         
+        // 3. 问题图片
+        self.iconBtn.setImage(UIImage(named : question.icon!), for: .normal)
+        
+        // 4. 下一题按钮状态
+        self.nextQuestionBtn.isEnabled = self.index != self.questions.count - 1
     }
     
     /** 添加正确答案 */
     func settingAnswerBtn(_ question : XYQuestion) -> Void {
+        
+        
         
     }
     
@@ -148,13 +156,8 @@ extension ViewController {
     }
     @IBAction func bigImage(_ sender: UIButton) {
         
-        /// 这里是懒加载，直接会加载成功，只会走成功分支
-//        if self.cover != nil {
-            self.view.addSubview(self.cover)
-//            self.cover.alpha = 0.5
-//        }else{
-//            self.cover?.removeFromSuperview()
-//        }
+        /// 这里是懒加载，直接会加载成功
+        self.view.addSubview(self.cover)
         
         /// 更换头像和阴影位置
         self.view.bringSubview(toFront: self.iconBtn)
