@@ -24,22 +24,25 @@
     
 ```
 
-- **Swift 中动画播放出现问题，同时放两个动画，效果奇葩**
-
-``` Swift
-
-             /// 动画放大图片  ---  效果异常
-//        self.iconBtn.frame = self.defaultIconRect!
-//        UIView.animate(withDuration: 0.25) {
-//
-////            self.cover.alpha = 0.7
-//
-//            self.iconBtn.frame = CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.width)
-//            self.iconBtn.center = self.view.center
-//        }
+- **IB文件中使用AutoLayout创建的控件，在代码中修改frame无效.要么IB文件中取消使用AutoLayout，要么代码中使用AutoLayout修改Contraint**
+``` objc        
+     
+     /// OC 中正确写法
+     [UIView animateWithDuration:0.25 animations:^{
         
+        //cover 透明度
+        self.cover.alpha = 0.7;
         
-        /// 这个Swift动画很诡异---，改变cover的透明度，必须要先用一个动画修改透明度，后才能正确加载改变frame的动画，否则效果异常！
+        //icon大小修改
+        self.iconWidthCons.constant = ScreenW;
+        self.iconCenterYCons.constant = 0;
+        
+    }];
+```
+
+``` Swift        
+        
+        /// 这个Swift动画很诡异---，如下方式能修改IB文件中通过AutoLayout创建的控件frame，也仅限于两个动画嵌套，OC中不行<Xcode 版本 9>
         UIView.animate(withDuration: 0.1, animations: {
             self.iconBtn.frame = self.defaultIconRect!   
             self.cover.alpha = 0.7
