@@ -137,9 +137,39 @@ extension ViewController{
     /** 添加正确答案 */
     func settingAnswerBtn(_ question : XYQuestion) -> Void {
         
+        // 0.先移除上一题的答案
+        for btn in self.answerView.subviews {
+            btn.removeFromSuperview()
+        }
         
+        // 1.加载本题数据，根据answer长度，创建对应数量的btn
+        let colmn : Int = (question.answer?.count)!
+        
+        for i in 0..<colmn {
+            
+            let WH : CGFloat = CGFloat(35)
+            let X : CGFloat = CGFloat(CGFloat(i) * WH + 50)
+            let Y : CGFloat = 0
+            
+            let btn : UIButton = UIButton(frame: CGRect(x: X, y: Y, width: WH, height: WH))
+            btn.addTarget(self, action: #selector(answerBtnClick), for: .touchUpInside)
+            btn.setImage(#imageLiteral(resourceName: "btn_answer_highlighted"), for: .highlighted)
+            btn.setImage(#imageLiteral(resourceName: "btn_answer"), for: .normal)
+            self.answerView.addSubview(btn)
+            
+            
+        }
+        
+        
+        
+        //
+    }
+    
+    
+    @objc func answerBtnClick(){
         
     }
+    
     
     /** 添加待选项 */
     func settingOptionBtn(_ question : XYQuestion) -> Void {
