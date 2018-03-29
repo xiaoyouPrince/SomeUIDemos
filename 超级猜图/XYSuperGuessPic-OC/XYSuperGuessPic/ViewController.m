@@ -100,9 +100,188 @@
 }
 
 
+/**
+ *  提示用户
+ *
+ *  @param tip 提示文字内容
+ */
+- (void)showTipViewWithTips:(NSString *)tip{
+    
+    UILabel *tipLabel = [UILabel new];
+    tipLabel.text = tip;
+    tipLabel.numberOfLines = 0;
+    
+    [tipLabel sizeToFit];
+    CGRect frame = tipLabel.frame;
+    frame.size = CGSizeMake(tipLabel.frame.size.width + 30, tipLabel.frame.size.height + 20);
+    tipLabel.frame = frame;
+    tipLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
+    tipLabel.center = self.view.center;
+    
+    tipLabel.textAlignment = NSTextAlignmentCenter;
+    tipLabel.layer.cornerRadius = frame.size.height / 4;
+    tipLabel.clipsToBounds = YES;
+    
+    [UIView animateWithDuration:1 animations:^{
+        [self.view addSubview:tipLabel];
+    } completion:^(BOOL finished) {
+       
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.5 animations:^{
+                tipLabel.alpha = 0.0;
+                
+            } completion:^(BOOL finished) {
+                [tipLabel removeFromSuperview];
+            }];
+        });
+    }];
+    
+    
+}
+
+
 
 - (IBAction)tip;
 {
+    // 【注意】此思路不好，Swift 版本中思路好些，更加面向对象，此实现过于面向过程了，比较麻烦
+    // 1.查看分数是否足够提示的，每次提示 -800分
+    // 2.遍历所选答案，比对对应的文字，
+    //   如果没有选择正确答案，直接移除所有文字，提示第一个字
+    //   如果第一个字对，移除后面所选提示第二个字
+    //   ...
+    // 3.如果提示最后一个字完成后，进入下一题（不加分）
+    
+    int currentScore = [[self.scoreBtn titleForState:UIControlStateNormal] intValue];
+    if (currentScore <= 800) {
+        [self showTipViewWithTips:@"您当前分数过低，无法进行提示!"];
+    }else
+    {
+        // 1. 当前question
+        XYQuestion *question = self.questions[self.index];
+        
+        // 2. 用户当前选择的答案
+        NSMutableString *userAnswer = [NSMutableString string];
+        for (UIButton *answeBtn in self.answerView.subviews) {
+            
+            if ([[answeBtn titleForState:UIControlStateNormal] isEqualToString:@""] || [answeBtn titleForState:UIControlStateNormal] == nil) {
+                break;
+            }
+            [userAnswer appendString:[answeBtn titleForState:UIControlStateNormal]];
+        }
+        
+        // 2.1 如果用户选择的答案为nil,直接提示第一个字
+        if (userAnswer.length == 0) {
+            
+            NSString *questionAnwerWord = [question.answer substringWithRange:NSMakeRange(0, 1)];
+            
+            UIButton *answerBtn = self.answerView.subviews.firstObject;
+            [answerBtn setTitle:questionAnwerWord forState:UIControlStateNormal];
+            
+            for (UIButton *optionBtn in self.optionView.subviews) {
+                
+                if ([[optionBtn titleForState:UIControlStateNormal] isEqualToString:questionAnwerWord]) {// 无需判断，是否隐藏，此状态都是显示的
+                    optionBtn.hidden = YES;
+                    // 只隐藏第一个
+                    break;
+                }
+                
+            }
+        }
+        
+        // 2.2 如果用户选择的答案都正确，就提示下面一个答案
+        if ([question.answer containsString:userAnswer] && userAnswer.length < question.answer.length) {
+         
+            NSString *questionAnwerWord = [question.answer substringWithRange:NSMakeRange(userAnswer.length, 1)];
+            
+            // answerBtn 展示提示的答案
+            UIButton *answerBtn = self.answerView.subviews[userAnswer.length];
+            [answerBtn setTitle:questionAnwerWord forState:UIControlStateNormal];
+            
+            // optionBtn 隐藏
+            for (UIButton *optionBtn in self.optionView.subviews) {
+                if ([[optionBtn titleForState:UIControlStateNormal] isEqualToString:questionAnwerWord] && optionBtn.hidden == NO ) {
+                    optionBtn.hidden = YES;
+                    break;
+                }
+            }
+            
+            // 提示完判断，是否此题已经答完
+            if (userAnswer.length + 1 == question.answer.length ) {
+                
+                
+                // 所有文字变蓝色，然后进入下一题
+                for (UIButton *answerBtn in self.answerView.subviews) {
+                    [answerBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+                }
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self nextQuestion];
+                });
+                return;// 直接返回，此情况不扣分
+            }
+        }
+        
+        // 2.3 用户有选择但是选择的文字中有错误，逐字判断正误，并提示（每次只提示一个字）
+        for (int i = 0; i < userAnswer.length; i++) {
+            
+            NSString *userAnwerWord = [userAnswer substringWithRange:NSMakeRange(i, 1)];
+            NSString *questionAnwerWord = [question.answer substringWithRange:NSMakeRange(i, 1)];
+            
+            if ([userAnwerWord isEqualToString:questionAnwerWord]) {
+                // 当前位置答案相同，直接对比下一位答案文字
+                continue;
+            }else {
+                // 进行提示当前位置的答案
+                
+                // 1. answerView显示提示的答案
+                UIButton *answeBtn =  self.answerView.subviews[i];
+                [answeBtn setTitle:questionAnwerWord forState:UIControlStateNormal];
+                
+                // 2. optionView遍历并隐藏对应位置答案
+                for (UIButton *optionBtn in self.optionView.subviews) {
+                    
+                    // 2.1 显示之前被选的答案文字
+                    if ([[optionBtn titleForState:UIControlStateNormal] isEqualToString:userAnwerWord] && optionBtn.hidden == YES){
+                        optionBtn.hidden = NO;
+                        break;
+                    }
+                }
+                
+                // 2. optionView遍历并隐藏对应位置答案
+                for (UIButton *optionBtn in self.optionView.subviews) {
+                    
+                    // 2.2 隐藏被提示的答案文字（只隐藏遍历到的第一个文字）
+                    if ([[optionBtn titleForState:UIControlStateNormal] isEqualToString:questionAnwerWord] && optionBtn.hidden == NO) {
+                        optionBtn.hidden = YES;
+                        break;
+                    }
+                }
+                
+                // 3.提示完判断，是否此题已经答完
+                NSString *subStr = [userAnswer substringWithRange:NSMakeRange(0, userAnswer.length-1)];
+                if ([question.answer containsString:subStr] && userAnswer.length == question.answer.length) {
+                    
+                    // 所有文字变蓝色，然后进入下一题
+                    for (UIButton *answerBtn in self.answerView.subviews) {
+                        [answerBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+                    }
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self nextQuestion];
+                    });
+                    return; // 此情况也不减分
+                }
+
+                
+                // 每次只提示一个字
+                break;
+            }
+        }
+        
+        
+        // 3.减分
+        [self addScore:-800];
+    }
     
 }
 - (IBAction)bigImg
@@ -154,13 +333,33 @@
 }
 - (IBAction)help
 {
-    
+    [self showTipViewWithTips:@"帮助，暂时就不做了，可以场外\n可以其他，自己想就行"];
 }
 - (IBAction)nextQuestion
 {
-    self.index ++;
+
+    XYQuestion *question = nil;
+    if (self.index == self.questions.count - 1) { // 已经是最后一题，给提示
+        
+        [self showTipViewWithTips:@"恭喜你通关\n5秒钟后为您重新开始"];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            self.index = -1;
+            [self nextQuestion];
+        });
+        
+
+        return;
+        
+    }else {
+        
+        self.index ++;
+        
+        question = (XYQuestion *)self.questions[self.index];
+    }
     
-    XYQuestion *question = (XYQuestion *)self.questions[self.index];
+    
     
     [self settingData:question];
     
@@ -195,6 +394,9 @@
     
     // 3.4.设置下一题按钮的状态
     self.nextQuestionBtn.enabled = self.index != (self.questions.count - 1);
+    if (self.index == (self.questions.count - 1)) {
+        [self showTipViewWithTips:@"已到最后一题"];
+    }
 }
 
 /**
@@ -306,6 +508,9 @@
             for (UIButton *answerBtn in self.answerView.subviews) {
                 [answerBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
             }
+            
+            // 设置剩余的 optionBtns 不可以点击
+            [self.optionView.subviews makeObjectsPerformSelector:@selector(setUserInteractionEnabled:) withObject:@(NO)];
         }
     }
 }
@@ -376,6 +581,12 @@
     // 3.让所有的答案按钮变为黑色
     for (UIButton *answerBtn in self.answerView.subviews) {
         [answerBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }
+    
+    // 4.此时恢复 optionBtns 的可用性
+//    [self.optionView.subviews makeObjectsPerformSelector:@selector(setUserInteractionEnabled:) withObject:@(YES)];
+    for (UIButton *btn in self.optionView.subviews) {
+        btn.userInteractionEnabled = YES;
     }
 }
 
