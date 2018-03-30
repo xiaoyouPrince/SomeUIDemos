@@ -143,14 +143,36 @@ extension ViewController{
         }
         
         // 1.加载本题数据，根据answer长度，创建对应数量的btn
-        let colmn : Int = (question.answer?.count)!
+        let count : Int = (question.answer?.count)!
         
-        for i in 0..<colmn {
+        
+        
+        for i in 0..<count {
             
+            
+            let margin : CGFloat = 20.0
             let WH : CGFloat = CGFloat(35)
-            let X : CGFloat = CGFloat(CGFloat(i) * WH + 50)
+            var X : CGFloat = CGFloat(CGFloat(i) * (WH + margin))
             let Y : CGFloat = 0
+
             
+            var centerIndex = 0
+            if count % 2 == 1 { // 奇数，正中间
+                centerIndex = count / 2
+                
+                let offset = i - centerIndex
+    
+                X = (self.answerView.center.x - WH / 2) + (CGFloat)(offset) * (WH + margin)
+            }
+            
+            if count % 2 == 0 { // 偶数，中间偏右
+                centerIndex = count / 2
+                
+                let offset = i - centerIndex
+                
+                X = (self.answerView.center.x + margin / 2) + (CGFloat)(offset) * (WH + margin)
+            }
+        
             let btn : UIButton = UIButton(frame: CGRect(x: X, y: Y, width: WH, height: WH))
             btn.addTarget(self, action: #selector(answerBtnClick), for: .touchUpInside)
             btn.setImage(#imageLiteral(resourceName: "btn_answer_highlighted"), for: .highlighted)
