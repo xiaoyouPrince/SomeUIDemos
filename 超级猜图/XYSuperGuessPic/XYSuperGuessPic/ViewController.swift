@@ -229,7 +229,6 @@ extension ViewController{
             
         }
         
-//        guard let title = sender.title(for: .normal) else { return }
         print("answerBtnClick")
     }
     
@@ -297,15 +296,6 @@ extension ViewController{
                 
                 break
             }
-
-//            let answerTitle = answerBtn.title(for: .normal)! as NSString
-//
-//            if answerTitle.length  == 0 { // 如果当前Btn没有title
-//
-//                answerBtn.setTitle(answerTitle as String, for: .normal)
-//
-//                break
-//            }
         }
         
         // 3. 检测答案是否已经填满
@@ -319,13 +309,6 @@ extension ViewController{
             {
                 full = false
             }
-            
-//            let answerTitle = answerBtn.title(for: .normal)! as NSString
-//
-//            // 如果还有空的答案按钮，就是还没有满
-//            if answerTitle.length == 0 {
-//                full = false
-//            }
             
             // 拼接选中的答案
             if answerTitle != nil
@@ -544,32 +527,7 @@ extension ViewController {
                     }
                     
                 }
-                
-                
-                
-                
-//                let userA = userAnswer.character(at: index)
-//                let corrA = answer.character(at: index)
-//                if userA == corrA {
-//                    print("\(userA)+++++++same")
-//                }else{
-//                    print("\(userA)+\(corrA)++++++不一样，需要替换")
-//
-//                    // 1. 答案中按钮点击返回待选区
-////                    let answerBtn = self.answerView.subviews[index] as! UIButton
-////                    self.answerBtnClick(answerBtn)
-////                    break
-//
-//                    // 2. 遍历候选按钮，选中该按钮（按钮可见）
-//                    for subview in self.optionView.subviews {
-//                        let optionBtn = subview as! UIButton
-//                        if optionBtn.title(for: .normal)!.elementsEqual("\(corrA)") && optionBtn.isHidden == false                            {
-//                            self.optionBtnClick(optionBtn)
-//                            break
-//                        }
-//
-//                    }
-//                }
+
             }
         }
         
