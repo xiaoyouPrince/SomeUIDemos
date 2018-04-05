@@ -597,11 +597,12 @@
  *  @param deltaScore 需要添加多少分
  */
 - (void)addScore:(int)deltaScore
-{
+{    
     int score = [self.scoreBtn titleForState:UIControlStateNormal].intValue;
     score += deltaScore;
     [self.scoreBtn setTitle:[NSString stringWithFormat:@"%d", score] forState:UIControlStateNormal];
 }
+
 
 
 

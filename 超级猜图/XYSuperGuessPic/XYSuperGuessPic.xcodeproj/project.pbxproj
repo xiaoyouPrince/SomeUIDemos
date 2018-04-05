@@ -14,6 +14,7 @@
 		B404505E205C26410013B188 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B404505C205C26410013B188 /* LaunchScreen.storyboard */; };
 		B4045069205C26410013B188 /* XYSuperGuessPicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4045068205C26410013B188 /* XYSuperGuessPicUITests.swift */; };
 		B4045076205C26C30013B188 /* XYQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4045075205C26C30013B188 /* XYQuestion.swift */; };
+		B405AB5420722C4100DC0703 /* btn_image_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = B405AB5320722C4100DC0703 /* btn_image_normal.png */; };
 		B4CEF0AE205C2A8F00225BE6 /* questions.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4CEF0AD205C2A8F00225BE6 /* questions.plist */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		B4045068205C26410013B188 /* XYSuperGuessPicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYSuperGuessPicUITests.swift; sourceTree = "<group>"; };
 		B404506A205C26410013B188 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B4045075205C26C30013B188 /* XYQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYQuestion.swift; sourceTree = "<group>"; };
+		B405AB5320722C4100DC0703 /* btn_image_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_image_normal.png; sourceTree = "<group>"; };
 		B4CEF0AD205C2A8F00225BE6 /* questions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = questions.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +83,7 @@
 		B4045052205C26410013B188 /* XYSuperGuessPic */ = {
 			isa = PBXGroup;
 			children = (
+				B405AB5320722C4100DC0703 /* btn_image_normal.png */,
 				B4045053205C26410013B188 /* AppDelegate.swift */,
 				B4045055205C26410013B188 /* ViewController.swift */,
 				B4045057205C26410013B188 /* Main.storyboard */,
@@ -190,6 +193,7 @@
 				B404505E205C26410013B188 /* LaunchScreen.storyboard in Resources */,
 				B404505B205C26410013B188 /* Assets.xcassets in Resources */,
 				B4045059205C26410013B188 /* Main.storyboard in Resources */,
+				B405AB5420722C4100DC0703 /* btn_image_normal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
