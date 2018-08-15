@@ -64,6 +64,7 @@
     NSString *ymdStr = [realDate stringWithFormat:@"yyyy-MM-dd"];
     
     _choosenYMDStr = ymdStr;
+    _choosenTime = nil;
     
 }
 
