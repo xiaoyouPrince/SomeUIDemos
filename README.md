@@ -62,19 +62,31 @@
 
 e.g:
 
-![超级猜图](images/superGuessPic.gif)
-
-
-一款看图猜文字的小游戏。
+<img src="images/superGuessPic.gif" width = "200" height = "355.7" alt="图片名称" align=center />
 
 ## 2. 通信录使用
 
+一个简单的通信录应用，暂时荒废了
+
+e.g:
+
+<!--  // 注释一下，以后再补上
+     <img src="images/superGuessPic.gif" width = "200" height = "355.7" alt="图片名称" align=center />
+-->
+
 ## 3. 时间选择控件
+
+一个简单的时间选择控件，
+应用场景之一：用户选择在网上预约商店的某项服务，选择时间
+
+e.g:
+
+     <img src="images/timePicker.gif" width = "200" height = "355.7" alt="图片名称" align=center />
 
 DEMO名称        |   DEMO地址
 ------------   |   -------------
-超级猜图        |    [超级猜图传送门](通信录使用/README.md)
+超级猜图        |    [超级猜图传送门](超级猜图)
 通信录使用      |    [通讯录传送门](通信录使用/README.md)
-时间选择控件    |    [时间选择传送门](通信录使用/README.md)
+时间选择控件    |    [时间选择传送门](时间选择)
 
 
