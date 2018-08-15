@@ -81,7 +81,7 @@ e.g:
 
 e.g:
 
-     <img src="images/timePicker.gif" width = "200" height = "355.7" alt="图片名称" align=center />
+<img src="images/timePicker.gif" width = "200" height = "355.7" alt="图片名称" align=center />
 
 DEMO名称        |   DEMO地址
 ------------   |   -------------
